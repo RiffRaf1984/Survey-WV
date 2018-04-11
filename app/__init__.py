@@ -9,6 +9,3 @@ def index():
 @app.route("/survey")
 def survey():
     return render_template('survey.html')
-
-if __name__ == "__main__":
-    app.run()   
