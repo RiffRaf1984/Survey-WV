@@ -1,4 +1,15 @@
+from lxml import etree as ET
+from lxml.builder import E
+class Survey_item(object):
+    
+    def __init__(self, prompt, input_type, choices=None):
+        self.prompt = prompt
+        self.input_type = input_type
+        self.choices = choices
 
+    def render_html(self):
+        if self.input_type == '
+        
 class Survey(object):
     ''' '''
     def __init__(self, ):
