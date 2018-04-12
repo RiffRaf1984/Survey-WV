@@ -13,6 +13,8 @@ wks = gc.open('surveys').sheet1
 def fetch_all_surveys():
     return wks.get_all_records()
 
+print(fetch_all_surveys())
+
 def insert_survey(cell_list):
     wks.insert_row(cell_list, 2)
 

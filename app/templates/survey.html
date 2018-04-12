@@ -1,19 +1,20 @@
 {% extends "layout.html" %}
 {% block main_container %}
-<div class="container">
-<form action="/action_page.php">
-  <div class="form-group">
-    <label for="email">Email address:</label>
-    <input type="email" class="form-control" id="email">
-  </div>
-  <div class="form-group">
-    <label for="pwd">Password:</label>
-    <input type="password" class="form-control" id="pwd">
-  </div>
-  <div class="checkbox">
-    <label><input type="checkbox"> Remember me</label>
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+<form method="POST" action="/">
+    {{ form.csrf_token }}
+    {{ form.event_name.label }} {{ form.event_name }}
+    {{ form.home_zip.label }} {{ form.home_zip }}
+    {{ form.visit_accomodations.label }}  {{ form.visit_accomodations }}
+    {{ form.nights_staying.label }}  {{ form.nights_staying }}
+    {{ form.festivall_attendance.label }} {{ form.festivall_attendance }}
+    {{ form.num_events_to_attend.label }} {{ form.num_events_to_attend }}
+    {{ form.money_spent.label }}  {{ form.money_spent }}
+    {{ form.age.label }} {{ form.age }}
+    {{ form.education.label }}  {{ form.education }}
+    {{ form.festivall_marketing.label }}  {{ form.festivall_marketing }}
+    {{ form.festivall_fav.label }}  {{ form.festivall_fav }}
+    {{ form.festivall_suggestion.label }}  {{ form.festivall_suggestion }}
+    {{ form.email.label }}  {{ form.email }}
+    <input type="submit" value="Go">
 </form>
-</div>
 {% endblock %}
