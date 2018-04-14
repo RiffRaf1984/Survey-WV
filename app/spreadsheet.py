@@ -26,7 +26,7 @@ def email_exists(submitted_email):
     return submitted_email in emails
 	
 def hash_password(password):
-	return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+	return bcrypt.hashpw(bytes(password.encode('utf8')), bcrypt.gensalt())
 
 def insert_volunteer(f, l, em, ph, pw):
     volunteers_sheet.insert_row([f, l, em, ph, hash_password(pw)], 2)
@@ -34,20 +34,23 @@ def insert_volunteer(f, l, em, ph, pw):
 def get_password_hash(email):
 	row = volunteers_sheet.find(email).row
 	column = 5
-	password_hash = worksheet.cell(row, column).value
+	password_hash = volunteers_sheet.cell(row, column).value
 	return password_hash
   
 def password_is_correct(email, password):
-    encoded_password = password.encode()
+    encoded_password = bytes(password.encode('utf8'))
     stored_hash = get_password_hash(email)
-    return bcrypt.checkpw(encoded_password, stored_hash)
+    print(type(stored_hash))
+    print(type(encoded_password))
+    return bcrypt.checkpw(encoded_password, stored_hash.encode('utf8'))
 
 def load_user(email, password):
     # check if user is in database
     if email_exists(email):
         if password_is_correct(email, password):
-            volunteer = volunteers.row_values(volunteers_sheet.find(email).row)
+            volunteer = volunteers_sheet.row_values(volunteers_sheet.find(email).row)
             session['volunteer'] = volunteer
+            print(session['volunteer'])
             return redirect('/')
 	#If password is incorrect, say so
 	# If email is not found, say so

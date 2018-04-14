@@ -41,8 +41,7 @@ def submit():
         request.form['festivall_suggestion'],
         request.form['email'],
         time.asctime(time.localtime(time.time())),
-        str(session.get('volunteer'))])
-        
+        session.get('volunteer')[0] + ' ' +  session.get('volunteer')[1]])
     return redirect('/submitted')
     
 @app.route('/submitted')
@@ -71,5 +70,11 @@ def login():
     return render_template('login.html')
 
 @app.route('/handle_login', methods=['POST'])
-def logged_in():
+def handle_login():
+    load_user(request.form['email'], request.form['password'])
     return "Logged in! <a href='/survey'>Submit a survey?</a>"
+
+@app.route('/logout')
+def logout():
+    session.pop('volunteer')
+    return redirect('/')
