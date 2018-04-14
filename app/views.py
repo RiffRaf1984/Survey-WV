@@ -48,3 +48,28 @@ def submit():
 @app.route('/submitted')
 def submitted():
     return "Survey submitted! <a href='/survey'>Submit another?</a>"
+
+@app.route('/register')
+def register():
+	return render_template('register.html')
+
+@app.route('/handle_registration', methods=["POST"])
+def handle_registration():
+    insert_volunteer(request.form['first_name'],
+                     request.form['last_name'],
+                     request.form['email'],
+                     request.form['phone'],
+                     request.form['password'])
+    return redirect('/registered')
+
+@app.route('/registered')
+def registered():
+	return "You have been registered. Please now <a href='/login'>login</a>"
+	
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/handle_login', methods=['POST'])
+def logged_in():
+    return "Logged in! <a href='/survey'>Submit a survey?</a>"
