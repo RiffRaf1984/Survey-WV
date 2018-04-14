@@ -1,7 +1,18 @@
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, session
 from . import app
 from .spreadsheet import *
 from .forms import *
+import time
+time.asctime(time.localtime(time.time()))
+
+
+def process_checklist(lst):
+	s = str(lst)
+	s = s.replace('"', '')
+	s = s.replace("'", '')
+	s = s.replace('[', '')
+	s = s.replace(']', '')
+	return s
 
 @app.route("/")
 def index():
@@ -17,7 +28,7 @@ def submit():
     print(request.form)
     insert_survey([request.form['event_name'],
         request.form['home_zip'],
-        request.form['visit_accomodations'],
+        process_checklist(request.form.getlist('visit_accomodations')),
         request.form['nights_staying'],
         request.form['festivall_attendance'],
         request.form['num_events_to_attend'],
@@ -25,10 +36,13 @@ def submit():
         request.form['age'],
         request.form['education'],
         request.form['income'],
-        request.form['festivall_marketing'],
+        process_checklist(request.form.getlist('festivall_marketing')),
         request.form['festivall_fav'],
         request.form['festivall_suggestion'],
-        request.form['email']])
+        request.form['email'],
+        time.asctime(time.localtime(time.time())),
+        str(session.get('volunteer'))])
+        
     return redirect('/submitted')
     
 @app.route('/submitted')
